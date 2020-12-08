@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Taylor Berukoff Portfolio Website</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" integrity="sha256-46qynGAkLSFpVbEBog43gvNhfrOj+BmwXdxFgVK/Kvc=" crossorigin="anonymous" />
+
+        <!-- Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,900|Source+Sans+Pro:300,900&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" href="css/taymath.css">
+    </head>
+    <body>
+        <header>
+            <button class="nav-toggle" aria-label="toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+            <nav class="nav">
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="index.html" class="nav__link">Home</a></li>
+                    <li class="nav__item"><a href="index.html#services" class="nav__link">My Services</a></li>
+                    <li class="nav__item"><a href="index.html#about" class="nav__link">About me</a></li>
+                    <li class="nav__item"><a href="index.html#work" class="nav__link">My Work</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Introduction -->
+        <section class="intro">
+            <h1 class="section__title section__title--intro">
+                Python - Tkinter<strong>Transactions GUI</strong>
+            </h1>
+            <p class="section__subtitle section__subtitle--intro">Transactions Database Management</p>
+            <img src="img/Coffee.jpg" alt="Description of img" class="taymath__intro__img">
+        </section>
+
+        <!-- Portfolio Items -->
+        <div class="portfolio-item-individual">
+            <section class="portfolio-item-individual__01">
+                <p>This is a transaction management application for storing and modifying business transactions. It was built using a series of <b>Python</b> libraries including <b>Tkinter</b> for the GUI,  <b>Pillow</b> for image display, and <b>XlsxWriter</b> to convert the data., and <b>SQLite</b> as our <b>RDBMS</b></p>
+                <img src="img/addTransaction.gif" alt="Description of img" class="portfolio-item-individual__img">
+            </section>
+
+            <section class="portfolio-item-individual__01">
+                <p>Users are able to store information related to their transactions including the Client Name, Date, Payment, and Service Description. This information can then be viewed in a user friendly format, and is easily edited by inputing the corresponding Transaction ID </p>
+                <img src="img/editTransaction.gif" alt="Description of img" class="portfolio-item-individual__img">
+            </section>
+
+            <section class="portfolio-item-individual__01">
+                <p>For users who would like to further adjust and structure their data, or simply prefer a spreadsheet styling, the database can be quickly saved in an xlsx format. </p>
+                <img src="img/saveTransactions.gif" alt="Description of img" class="portfolio-item-individual__img">
+            </section>
+
+        </div>
+        <!-- Footer -->
+        <footer class="footer">
+            <a href="mailto:TaylorBerukoff@gmail.com" class="footer__link">TaylorBerukoff@gmail.com</a>
+            <ul class="social-list">
+                <li class="social-list__item">
+                    <a class="social-list__link" href="https://twitter.com">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </li>
+                <li class="social-list__item">
+                    <a class="social-list__link" href="https://github.com/tsb1995">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </li>
+            </ul>
+        </footer>
+
+        <!-- Javascript -->
+        <script src="js/index.js">
+
+        </script>
+
+    </body>
+</html>

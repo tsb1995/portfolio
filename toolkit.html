@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Taylor Berukoff Portfolio Website</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" integrity="sha256-46qynGAkLSFpVbEBog43gvNhfrOj+BmwXdxFgVK/Kvc=" crossorigin="anonymous" />
+
+        <!-- Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,900|Source+Sans+Pro:300,900&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" href="css/toolkit.css">
+    </head>
+    <body>
+        <header>
+            <button class="nav-toggle" aria-label="toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+            <nav class="nav">
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="index.html" class="nav__link">Home</a></li>
+                    <li class="nav__item"><a href="index.html#services" class="nav__link">My Services</a></li>
+                    <li class="nav__item"><a href="index.html#about" class="nav__link">About me</a></li>
+                    <li class="nav__item"><a href="index.html#work" class="nav__link">My Work</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Introduction -->
+        <section class="intro">
+            <h1 class="section__title section__title--intro">
+                Android - Kotlin<strong>Student Management</strong>
+            </h1>
+            <p class="section__subtitle section__subtitle--intro">Tutor Toolkit</p>
+            <img src="img/portfolio-01.png" alt="Description of img" class="taymath__intro__img">
+        </section>
+
+        <!-- Portfolio Items -->
+        <div class="portfolio-item-individual">
+            <section class="portfolio-item-individual__01 row">
+                <p>This is a fully deployed and functional <b>Android</b> phone application written in <b>Kotlin</b> using the <b>Android Studio SDK</b>. Users are provided the ability to store information relating to their students' grades, history, and personal information locally to their device. They also have access to a task list ehy can edit to fit day to day needs. The information entered by the user is stored in a <b>Relational Database</b> via the <b>Room</b> persistence library which acts as an abstraction layer over <b>SQLite</b> for robust access. With a clean and readable interface, users can quickly input and modify the data they have stored. </p>
+                <img src="img/tt-03.jpg" alt="Description of img" class="portfolio-item-individual__img column">
+                <img src="img/tt-01.jpg" alt="Description of img" class="portfolio-item-individual__img column">
+                <img src="img/tt-02.jpg" alt="Description of img" class="portfolio-item-individual__img column">
+            </section>
+
+            <!-- Splitting by images similar to other pages -->
+            <!-- <section class="portfolio-item-individual__01">
+                <p>The information entered by the user is stored in a <b>Relational Database</b> via the <b>Room</b> persistence library which acts as an abstraction layer over <b>SQLite</b> for robust access. With a clean and readable interface, users can quickly input and modify the data they have stored. </p>
+            </section>
+
+            <section class="portfolio-item-individual__01">
+                <p>The user can, for each student, create a unique profile to store all necessary information which is made easily identifiable by unique image icons. With this app, users have the ability to more easily keep track of their students' information directly on their phone.</p>
+                <p class="portfolio-item-individual__03">This app is currently fully deployed and live on the <a href="https://play.google.com/store/apps/details?id=com.taymath.tutortoolkit">Google Playstore</a></p>
+            </section> -->
+
+            <p class="portfolio-item-individual__03">This app is currently fully deployed and live on the <a href="https://play.google.com/store/apps/details?id=com.taymath.tutortoolkit">Google Playstore</a></p>
+
+        </div>
+        <!-- Footer -->
+        <footer class="footer">
+            <!-- replace with your own email address -->
+            <a href="mailto:TaylorBerukoff@gmail.com" class="footer__link">TaylorBerukoff@gmail.com</a>
+            <ul class="social-list">
+                <li class="social-list__item">
+                    <a class="social-list__link" href="https://twitter.com">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </li>
+                <li class="social-list__item">
+                    <a class="social-list__link" href="https://github.com/tsb1995">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </li>
+            </ul>
+        </footer>
+
+        <!-- Javascript -->
+        <script src="js/index.js">
+
+        </script>
+
+    </body>
+</html>
