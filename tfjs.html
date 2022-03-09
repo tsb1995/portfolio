@@ -12,6 +12,7 @@
 
         <link rel="stylesheet" href="css/showcase.css">
     </head>
+
     <body>
         <header>
             <button class="nav-toggle" aria-label="toggle navigation">
@@ -30,27 +31,46 @@
         <!-- Introduction -->
         <section class="intro">
             <h1 class="section__title section__title--intro">
-                Python<strong>Zillow Grabber</strong>
+                TensorFlow.JS<strong>Smart Camera</strong>
             </h1>
-            <p class="section__subtitle section__subtitle--intro">Housing Data Management</p>
-            <img src="img/portfolio-04.jpg" alt="Description of img" class="taymath__intro__img">
+            <p class="section__subtitle section__subtitle--intro">Object Detection in Javascript</p>
+            <img src="img/portfolio-07.jpg" alt="Tensorflow JS logo" class="taymath__intro__img" style="background-color: white; border-radius: 1.5rem;">
         </section>
 
         <!-- Portfolio Items -->
         <div class="portfolio-item-individual">
             <section class="portfolio-item-individual__01">
-                <p>This is an applcation created to take a properly formatted excel housing file, grab relevant housing information from the  <b>Zillow API</b>, integrate it into the existing data, clean everything up, and upload to <b>Google Sheets</b> using their API. The <b>GUI</b> was created using <b>Tkinter</b> and data modification and cleaning done with the  <b>Pandas</b> library. </p>
-                <img src="img/zillowMain.gif" alt="Description of img" class="portfolio-item-individual__img">
+                <p class="portfolio-item-individual__p">
+                This is an implementation of Google's <strong>TensorFlow.JS</strong> Library. 
+                Making use of <strong>HTML5, CSS3, and Javascript</strong>, this page showcases an 
+                application of skills in <strong>Web Development</strong> and <strong>Data 
+                Science</strong>. Below, you can hold objects up to your webcam to for <strong>Real 
+                Time Classification</strong>! When Ready, click "Enable Webcam" below, and allow
+                access when prompted.
+                </p>
+            </section>
+
+            <section id="demos" class="portfolio-item-individual__02; invisible">
+                <div id="liveView" class="camView">
+                  <button id="webcamButton" class="btn center">Enable Webcam</button>
+                  <video id="webcam" autoplay muted width="640" height="480"></video>
+                </div>
             </section>
 
             <section class="portfolio-item-individual__01">
-                <p>Users are able to select which <b>Google</b> account they would like to save their <b>Sheets Document</b> to, and their authentication information will be saved as a <b>pickle</b> file. Their <b>Zillow API Key</b> is stored in the zillowkey.conf config file.</p>
-                <img src="img/zillowSheets.gif" alt="Description of img" class="portfolio-item-individual__img">
+                <p>The code for this <strong>project</strong>, along with other applications of <strong>Data Science</strong>, can be found through my <a href="https://www.github.com/tsb1995">Github</a> account.</p>
             </section>
 
+
+
+
+
         </div>
+
+
         <!-- Footer -->
         <footer class="footer">
+            <!-- replace with your own email address -->
             <a href="mailto:TaylorBerukoff@gmail.com" class="footer__link">TaylorBerukoff@gmail.com</a>
             <ul class="social-list">
                 <li class="social-list__item">
@@ -61,10 +81,16 @@
             </ul>
         </footer>
 
-        <!-- Javascript -->
-        <script src="js/index.js">
+        <!-- Base Javascript -->
+        <script src="js/index.js"></script>
 
-        </script>
+        <!-- Page Specific Javascript -->
+        <script src="js/tfjs.js" defer></script>
+
+        <!-- Import TensorFlow.js library -->
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js" type="text/javascript"></script>
+        <!-- Load the coco-ssd model to use to recognize things in images -->
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
 
     </body>
 </html>
