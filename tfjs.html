@@ -50,12 +50,35 @@
                 </p>
             </section>
 
-            <section id="demos" class="portfolio-item-individual__02; invisible">
+            <section id="cocoDemo" class="portfolio-item-individual__02; invisible">
+                <div id="liveView" class="camView">
+                  <button id="cocoWebcamButton" class="btn center">Enable Webcam</button>
+                  <video id="cocoWebcam" autoplay muted width="640" height="480"></video>
+                </div>
+            </section>
+
+
+
+
+            
+
+            <!-- <section class="portfolio-item-individual__03">
+                <p class="portfolio-item-individual__p">
+                This is an implementation of Google's <strong>TensorFlow.JS</strong> Library. 
+                Making use of <strong>HTML5, CSS3, and Javascript</strong>, this page showcases an 
+                application of skills in <strong>Web Development</strong> and <strong>Data 
+                Science</strong>. Below, you can hold objects up to your webcam to for <strong>Real 
+                Time Classification</strong>! When Ready, click "Enable Webcam" below, and allow
+                access when prompted.
+                </p>
+            </section>
+
+            <section id="demos" class="portfolio-item-individual__04; invisible">
                 <div id="liveView" class="camView">
                   <button id="webcamButton" class="btn center">Enable Webcam</button>
                   <video id="webcam" autoplay muted width="640" height="480"></video>
                 </div>
-            </section>
+            </section> -->
 
             <section class="portfolio-item-individual__01">
                 <p>The code for this <strong>project</strong>, along with other applications of <strong>Data Science</strong>, can be found through my <a href="https://www.github.com/tsb1995">Github</a> account.</p>
@@ -89,6 +112,7 @@
 
         <!-- Import TensorFlow.js library -->
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js" type="text/javascript"></script>
+
         <!-- Load the coco-ssd model to use to recognize things in images -->
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
 
