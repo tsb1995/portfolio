@@ -187,12 +187,11 @@ function blazePredictWebcam() {
   });
 }
 
-
-
-
-
-
-
 // Store the resulting model in the global scope of our app.
 var cocoModel = undefined;
 var blazeModel = undefined;
+
+
+// 
+// 
+// MNIST Digit Recognizer
