@@ -412,3 +412,26 @@ background: rgba(0, 255, 0, 0.25);
 border: 1px dashed #fff;
 z-index: 1;
 }
+
+
+/* Set up two columns for drawing canvas and chart */
+.row {
+    display: flex;
+    margin: auto;
+    width: 100%;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+    float: left;
+    width: 50%;
+    padding: 10px;
+    height: 300px; /* Should be removed. Only for demonstration */
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }

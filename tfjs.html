@@ -4,12 +4,17 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Taylor Berukoff Portfolio Website</title>
+
+        
+
+        <!-- normalize and font awesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" integrity="sha256-46qynGAkLSFpVbEBog43gvNhfrOj+BmwXdxFgVK/Kvc=" crossorigin="anonymous" />
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,900|Source+Sans+Pro:300,900&display=swap" rel="stylesheet">
 
+        <!-- Custom CSS -->
         <link rel="stylesheet" href="css/showcase.css">
     </head>
 
@@ -56,7 +61,7 @@
             <section id="cocoDemo" class="portfolio-item-individual__02; invisible">
                 <div id="cocoLiveView" class="camView">
                   <button id="cocoWebcamButton" class="btn center">Enable Webcam</button>
-                  <video id="cocoWebcam" autoplay muted width="640" height="480"></video>
+                  <video id="cocoWebcam" autoplay muted width="640" height="480" clas="center"></video>
                 </div>
             </section>
 
@@ -66,7 +71,9 @@
             <section class="portfolio-item-individual__03">
                 <p class="portfolio-item-individual__p">
                 Here you can find an implementation of the facial recognition model
-                 <strong>BlazeFace</strong>.
+                <strong>BlazeFace</strong>. Upon activating your webcam, the model will continuosly scan the <strong>video feed</strong> and 
+                return <strong>bounding boces</strong> for any faces detected, along with the relative locations and likelihoods of 
+                <strong>facial landmarks</strong> (eyes, nose, mouth, etc). 
                 </p>
             </section>
 
@@ -77,10 +84,40 @@
                 </div>
             </section>
 
+            <!-- MNIST drawing and labeling -->
+
             <section class="portfolio-item-individual__04">
-                <p>The code for this <strong>project</strong>, along with other applications of <strong>Data Science</strong>, can be found through my <a href="https://www.github.com/tsb1995">Github</a> account.</p>
+                    <p class="portfolio-item-individual__p">
+                        Below is a <strong>TensorflowJS</strong> implementation of a custom <strong>CNN Model</strong> which makes use of two 
+                        <strong>Convolutional Layers</strong>, two <strong>Max Pool layers</strong>, and
+                        one <strong>Dense Hidden Layer</strong> of size 1024, as well as a <strong>Dropout Layer</strong>
+                        to prevent overfitting (with a dropout rate of 20%). The original model was constructed and trained using Tensorflow in Python
+                         and a TensorflowJS version of the model was saved. Note that the model was trained on normalized and centered images, and as
+                        such, the larger and closer to the center that you draw your numbers, the more accurate the prediction.
+                    </p>
             </section>
 
+
+            <section class="">
+                <div class="row">
+                    <div class="column">
+                        <div id="canvas_box" class="canvas-box"></div>
+                        <button id="clear-button" class="btn">Clear</button>
+                        <button id="predict-button" class="btn">Predict</button>
+                    </div>
+                    <div class="column" >
+                        <div id="result_box" class="">
+                            <canvas id="chart_box" width="50%" height="50%"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+
+            <section class="portfolio-item-individual__05" style="padding-top: 10rem;">
+                <p>The code for this <strong>project</strong>, along with other applications of <strong>Data Science</strong>, can be found through my <a href="https://www.github.com/tsb1995">Github</a> account.</p>
+            </section>
+            
         </div>
 
 
@@ -97,6 +134,7 @@
             </ul>
         </footer>
 
+        
         <!-- Base Javascript -->
         <script src="js/index.js"></script>
 
@@ -112,7 +150,11 @@
         <!-- Load the blazeface model to use to recognize things in images -->
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface"></script>
 
-        <!--  -->
+        <!-- Jquery -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+        <!-- JS Charts -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
 
 
     </body>
