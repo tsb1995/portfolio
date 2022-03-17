@@ -198,7 +198,7 @@ var blazeModel = undefined;
 // 
 // MNIST Digit Recognizer
 
-let model;
+let mnistModel;
 var canvasWidth             = 300;
 var canvasHeight            = 300;
 var canvasStrokeStyle       = "white";
@@ -373,9 +373,9 @@ $("#clear-button").click(async function () {
 
 async function loadMnistModel() {
   // clear the model variable
-  model = undefined; 
+  mnistModel = undefined; 
   // load the model using a HTTPS request (where you have stored your model files)
-  model = await tf.loadLayersModel("js/models/model.json");
+  mnistModel = await tf.loadLayersModel("js/models/model.json");
 }
  
 loadMnistModel();
@@ -405,7 +405,7 @@ $("#predict-button").click(async function () {
   let tensor = preprocessCanvas(canvas);
 
   // make predictions on the preprocessed image tensor
-  let predictions = await model.predict(tensor).data();
+  let predictions = await mnistModel.predict(tensor).data();
 
   // get the model's prediction results
   let results = Array.from(predictions);
@@ -491,4 +491,207 @@ function displayLabel(data) {
         }
     }
     $(".prediction-text").html("Predicting you draw <b>"+maxIndex+"</b> with <b>"+Math.trunc( max*100 )+"%</b> confidence")
+}
+
+
+
+// 
+// Teachable Machine Section
+// 
+
+// Initialize Constants
+
+const STATUS = document.getElementById('status');
+const TEACH_MACHINE_VIDEO = document.getElementById('teachMachineVideo');
+const TEACH_MACHINE_ENABLE = document.getElementById('teachMachineEnable');
+const RESET_BUTTON = document.getElementById('reset');
+const TRAIN_BUTTON = document.getElementById('train');
+const MOBILE_NET_INPUT_WIDTH = 224;
+const MOBILE_NET_INPUT_HEIGHT = 224;
+const STOP_DATA_GATHER = -1;
+const CLASS_NAMES = [];
+
+// Add Event Listeners
+
+TEACH_MACHINE_ENABLE.addEventListener('click', enableTeachMachine);
+TRAIN_BUTTON.addEventListener('click', trainAndPredict);
+RESET_BUTTON.addEventListener('click', reset);
+
+// Grab Data Collections Buttons
+let dataCollectorButtons = document.querySelectorAll('button.dataCollector');
+
+// Loop through buttons and add event listeners for each
+for (let i = 0; i < dataCollectorButtons.length; i++) {
+  dataCollectorButtons[i].addEventListener('mousedown', gatherDataForClass);
+  dataCollectorButtons[i].addEventListener('mouseup', gatherDataForClass);
+  // Populate the human readable names for classes.
+  CLASS_NAMES.push(dataCollectorButtons[i].getAttribute('data-name'));
+}
+
+// Initialize Variables
+let mobilenet = undefined;
+let gatherDataState = STOP_DATA_GATHER;
+let videoPlaying = false;
+let trainingDataInputs = [];
+let trainingDataOutputs = [];
+let examplesCount = [];
+let predict = false;
+
+
+// Loads the MobileNet model and warms it up so ready for use.
+
+async function loadMobileNetFeatureModel() {
+  const URL = 
+    'https://tfhub.dev/google/tfjs-model/imagenet/mobilenet_v3_small_100_224/feature_vector/5/default/1';
+  
+  mobilenet = await tf.loadGraphModel(URL, {fromTFHub: true});
+  console.log("success")
+  STATUS.innerText = 'MobileNet v3 loaded successfully!';  
+
+  // Warm up the model by passing zeros through it once.
+  tf.tidy(function () {
+    let answer = mobilenet.predict(tf.zeros([1, MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH, 3]));
+    console.log(answer.shape);
+  });
+}
+ 
+loadMobileNetFeatureModel();
+
+// Setup model head
+
+let teachMachineModel = tf.sequential();
+teachMachineModel.add(tf.layers.dense({inputShape: [1024], units: 128, activation: 'relu'}));
+teachMachineModel.add(tf.layers.dense({units: CLASS_NAMES.length, activation: 'softmax'}));
+
+teachMachineModel.summary();
+
+
+// Compile the model with the defined optimizer and specify a loss function to use.
+
+teachMachineModel.compile({
+  // Adam changes the learning rate over time which is useful.
+  optimizer: 'adam',
+
+  // Use the correct loss function. If 2 classes of data, must use binaryCrossentropy.
+  // Else categoricalCrossentropy is used if more than 2 classes.
+  loss: (CLASS_NAMES.length === 2) ? 'binaryCrossentropy': 'categoricalCrossentropy', 
+  
+  // As this is a classification problem you can record accuracy in the logs too!
+  metrics: ['accuracy']  
+});
+
+// Setup Cam Button
+function enableTeachMachine() {
+  if (getUserMediaSupported()) {
+    // getUsermedia parameters.
+    const constraints = {
+      video: true,
+      width: 640,
+      height: 480 
+    };
+
+    // Activate the webcam stream.
+    navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
+      TEACH_MACHINE_VIDEO.srcObject = stream;
+      TEACH_MACHINE_VIDEO.addEventListener('loadeddata', function() {
+        videoPlaying = true;
+        TEACH_MACHINE_ENABLE.classList.add('removed');
+      });
+    });
+  } else {
+    console.warn('getUserMedia() is not supported by your browser');
+  }
+}
+
+
+// Data Gatherer
+function gatherDataForClass() {
+  let classNumber = parseInt(this.getAttribute('data-1hot'));
+  gatherDataState = (gatherDataState === STOP_DATA_GATHER) ? classNumber : STOP_DATA_GATHER;
+  dataGatherLoop();
+}
+
+function dataGatherLoop() {
+  if (videoPlaying && gatherDataState !== STOP_DATA_GATHER) {
+    let imageFeatures = tf.tidy(function() {
+      let videoFrameAsTensor = tf.browser.fromPixels(TEACH_MACHINE_VIDEO);
+      let resizedTensorFrame = tf.image.resizeBilinear(videoFrameAsTensor, [MOBILE_NET_INPUT_HEIGHT, 
+          MOBILE_NET_INPUT_WIDTH], true);
+      let normalizedTensorFrame = resizedTensorFrame.div(255);
+      return mobilenet.predict(normalizedTensorFrame.expandDims()).squeeze();
+    }); 
+
+
+    trainingDataInputs.push(imageFeatures);
+    trainingDataOutputs.push(gatherDataState);
+    
+
+    // Intialize array index element if currently undefined.
+    if (examplesCount[gatherDataState] === undefined) {
+      examplesCount[gatherDataState] = 0;
+    }
+    examplesCount[gatherDataState]++;
+
+ 
+    STATUS.innerText = '';
+    for (let n = 0; n < CLASS_NAMES.length; n++) {
+      STATUS.innerText += CLASS_NAMES[n] + ' data count: ' + examplesCount[n] + '. ';
+    }
+    window.requestAnimationFrame(dataGatherLoop);
+  }
+}
+
+// Train the model and make predictions
+async function trainAndPredict() {
+  predict = false;
+  tf.util.shuffleCombo(trainingDataInputs, trainingDataOutputs);
+  let outputsAsTensor = tf.tensor1d(trainingDataOutputs, 'int32');
+  let oneHotOutputs = tf.oneHot(outputsAsTensor, CLASS_NAMES.length);
+  let inputsAsTensor = tf.stack(trainingDataInputs);
+  
+
+  let results = await teachMachineModel.fit(inputsAsTensor, oneHotOutputs, {shuffle: true, batchSize: 5, epochs: 10, 
+      callbacks: {onEpochEnd: logProgress} });
+  
+
+  outputsAsTensor.dispose();
+  oneHotOutputs.dispose();
+  inputsAsTensor.dispose();
+  predict = true;
+  predictLoop();
+}
+
+
+function logProgress(epoch, logs) {
+  console.log('Data for epoch ' + epoch, logs);
+}
+
+function predictLoop() {
+  if (predict) {
+    tf.tidy(function() {
+      let videoFrameAsTensor = tf.browser.fromPixels(TEACH_MACHINE_VIDEO).div(255);
+      let resizedTensorFrame = tf.image.resizeBilinear(videoFrameAsTensor,[MOBILE_NET_INPUT_HEIGHT, 
+          MOBILE_NET_INPUT_WIDTH], true);
+      let imageFeatures = mobilenet.predict(resizedTensorFrame.expandDims());
+      let prediction = teachMachineModel.predict(imageFeatures).squeeze();
+      let highestIndex = prediction.argMax().arraySync();
+      let predictionArray = prediction.arraySync();
+      STATUS.innerText = 'Prediction: ' + CLASS_NAMES[highestIndex] + ' with ' + Math.floor(predictionArray[highestIndex] * 100) + '% confidence';
+    });
+    window.requestAnimationFrame(predictLoop);
+  }
+}
+
+// Clear everything
+function reset() {
+  predict = false;
+  examplesCount.splice(0);
+  for (let i = 0; i < trainingDataInputs.length; i++) {
+    trainingDataInputs[i].dispose();
+  }
+  trainingDataInputs.splice(0);
+  trainingDataOutputs.splice(0);
+  STATUS.innerText = 'No data collected';
+
+  console.log('Tensors in memory: ' + tf.memory().numTensors);
 }

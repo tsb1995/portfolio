@@ -98,20 +98,45 @@
             </section>
 
 
-            <section class="">
-                <div class="row">
-                    <div class="column">
-                        <div id="canvas_box" class="canvas-box"></div>
-                        <button id="clear-button" class="btn">Clear</button>
-                        <button id="predict-button" class="btn">Predict</button>
-                    </div>
-                    <div class="column" >
-                        <div id="result_box" class="">
-                            <canvas id="chart_box" width="50%" height="50%"></canvas>
-                        </div>
+            
+            <div class="row">
+                <div class="column">
+                    <div id="canvas_box" class="canvas-box"></div>
+                    <button id="clear-button" class="btn">Clear</button>
+                    <button id="predict-button" class="btn">Predict</button>
+                </div>
+                <div class="column" >
+                    <div id="result_box" class="">
+                        <canvas id="chart_box" width="50%" height="50%"></canvas>
                     </div>
                 </div>
+            </div>
+
+            <!-- Teachable Machine -->
+
+            <section class="portfolio-item-individual__05" style="padding-top: 10rem;">
+                <p class="portfolio-item-individual__p">
+                    Below is a showcase of <strong>Transfer Learning</strong>, in which you can create your own custom <strong>Image Classification</strong>
+                     model using <strong>MobileNetV3</strong> as the base. The <strong>Model Head</strong>, which consists of a <strong>Dense Hidden Layer</strong> of size 
+                     1024 and a proper output layer, is appended onto the pretrained portion of MobileNet. You can then gather your own <strong>Training Data</strong>
+                     for each class you care about by <strong>Clicking</strong> and <strong>Holding</strong> the Gather Class Data Buttons. Once you've gathered enough
+                     training data, clikc <strong>Train & Predict</strong> to train the model head to adapt to your two Custom Classes!  
+                </p>
             </section>
+
+            <section id="teachMachine" class="portfolio-item-individual__06">
+                <p id="status">Awaiting TF.js load</p>
+
+                <video id="teachMachineVideo" autoplay></video>
+
+                <button id="teachMachineEnable" class="btn teachMachineBtn">Enable Webcam</button>
+                <button class="dataCollector btn teachMachineBtn" data-1hot="0" data-name="Class 1">Gather Class 1 Data</button>
+                <button class="dataCollector btn teachMachineBtn" data-1hot="1" data-name="Class 2">Gather Class 2 Data</button>
+                <button id="train" class="btn teachMachineBtn">Train & Predict!</button>
+                <button id="reset" class="btn teachMachineBtn">Reset</button>
+
+            </section>
+
             
 
             <section class="portfolio-item-individual__05" style="padding-top: 10rem;">
