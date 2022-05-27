@@ -152,33 +152,21 @@ function blazePredictWebcam() {
     }
     blazeChildren.splice(0);
 
-    console.log("test");
-    if (!!predictions[0]) {
-      console.log(predictions[0]);
-      console.log(predictions[0].probability);
-    }
-
     
     // Now lets loop through predictions and draw them to the live view if
     // they have a high confidence score.
     for (let n = 0; n < predictions.length; n++) {
       // If we are over 66% sure we are sure we classified it right, draw it!
       if (predictions[n].probability > 0.66) {
-        let start = predictions[n].topLeft;
-        let end = predictions[n].bottomRight;
-        let size = [end[0] - start[0], end[1] - start[1]];
-
-        console.log(size);
-
-        const highlighter = document.createElement('div');
-        highlighter.setAttribute('class', 'highlighter');
-        highlighter.style = 'left: ' + start[0] + 'px; top: '
-            + start[1] + 'px; width: ' 
-            + size[0] + 'px; height: '
-            + size[1] + 'px;';
-
-        blazeLiveView.appendChild(highlighter);
-        blazeChildren.push(highlighter);
+        let predictionsArray = predictions[n];
+        let boundStart = predictionsArray.topLeft;
+        let boundEnd = predictionsArray.bottomRight;
+        let landmarks = predictionsArray.landmarks;
+        for (let k=0; k < landmarks.length; k++) {
+          createFeatureIndicator(landmarks[k][0], landmarks[k][1]);
+        }
+        createFaceBoundBox(boundStart, boundEnd);
+        
       }
     }
     
@@ -187,10 +175,31 @@ function blazePredictWebcam() {
   });
 }
 
+// Helper functions for highlighting feature locations from the model
+function createFaceBoundBox(start, end) {
+  let size = [end[0] - start[0], end[1] - start[1]];
+  const highlighter = document.createElement('div');
+  highlighter.setAttribute('class', 'highlighter');
+  highlighter.style = 'left: ' + start[0] + 'px; top: '
+      + start[1] + 'px; width: '
+      + size[0] + 'px; height: '
+      + size[1] + 'px;';
+      blazeLiveView.appendChild(highlighter);
+      blazeChildren.push(highlighter);
+}
+
+function createFeatureIndicator(x, y) {
+  const featureIndicator = document.createElement('div');
+  featureIndicator.setAttribute('class', 'featureIndicator');
+  featureIndicator.style = "left: " + x + "px;"
+      + "top: " + y + "px;"
+      +  "width: .5rem; height: .5rem;"
+      blazeLiveView.appendChild(featureIndicator);
+      blazeChildren.push(featureIndicator);}
+
 // Store the resulting model in the global scope of our app.
 var cocoModel = undefined;
 var blazeModel = undefined;
-
 
 
 
@@ -545,13 +554,11 @@ async function loadMobileNetFeatureModel() {
     'https://tfhub.dev/google/tfjs-model/imagenet/mobilenet_v3_small_100_224/feature_vector/5/default/1';
   
   mobilenet = await tf.loadGraphModel(URL, {fromTFHub: true});
-  console.log("success")
   STATUS.innerText = 'MobileNet v3 loaded successfully!';  
 
   // Warm up the model by passing zeros through it once.
   tf.tidy(function () {
     let answer = mobilenet.predict(tf.zeros([1, MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH, 3]));
-    console.log(answer.shape);
   });
 }
  

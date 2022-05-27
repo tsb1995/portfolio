@@ -408,10 +408,17 @@ font-size: 12px;
 }
 
 .highlighter {
-position: absolute;
-background: rgba(0, 255, 0, 0.25);
-border: 1px dashed #fff;
-z-index: 1;
+    background: rgba(76, 0, 255, 0.2);
+    border: 1px dashed #fff;
+    z-index: 1;
+    position: absolute;
+}
+
+.featureIndicator {
+    background: rgb(255, 174, 0);
+    z-index: 1;
+    position: absolute;
+    border-radius: 50%;
 }
 
 
